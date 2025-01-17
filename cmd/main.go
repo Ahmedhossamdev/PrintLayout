@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"PrintLayout/pkg/printer"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	printer.PrintProjectStructure()
 }
