@@ -8,18 +8,18 @@ import (
 	"strings"
 )
 
-// PrintProjectStructure prints the folder structure starting from the current directory.
-func PrintProjectStructure() {
-	root, err := filepath.Abs(".")
+// PrintProjectStructure prints the folder structure starting from the specified directory.
+func PrintProjectStructure(root string) {
+	absRoot, err := filepath.Abs(root)
 	if err != nil {
 		fmt.Println("Error getting absolute path:", err)
 		return
 	}
 
-	rootName := filepath.Base(root)
+	rootName := filepath.Base(absRoot)
 	fmt.Printf("%s/\n", rootName)
 
-	printTree(root, "")
+	printTree(absRoot, "")
 }
 
 // printTree prints the directory tree structure.
@@ -30,12 +30,11 @@ func printTree(currentDir string, prefix string) {
 	}
 	defer dir.Close()
 
-	entries, err := dir.Readdir(-1) // Read all entries
+	entries, err := dir.Readdir(-1)
 	if err != nil {
 		return
 	}
 
-	// Sort entries alphabetically
 	sort.Slice(entries, func(i, j int) bool {
 		return entries[i].Name() < entries[j].Name()
 	})
@@ -50,7 +49,6 @@ func printTree(currentDir string, prefix string) {
 
 		if entry.IsDir() {
 			fmt.Printf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
-			// Recursively print the contents of the directory
 			printTree(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
 		} else {
 			fmt.Printf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
