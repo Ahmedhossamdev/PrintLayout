@@ -28,6 +28,14 @@ Download the pre-built binary for your operating system from the [Releases page]
    ```bash
    sudo mv printlayout-linux-amd64 /usr/local/bin/printlayout
    ```
+4. Run the program:
+   ```bash
+      printlayout or printlayout /path/to/your/folder
+   ```
+   
+
+
+   
 
 #### Windows
 
