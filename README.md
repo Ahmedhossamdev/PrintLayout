@@ -1,5 +1,7 @@
 # PrintLayout
 
+![PrintLayout Logo](assets/printlayoutlogo.webp)
+
 PrintLayout is a command-line tool that prints the directory structure of a specified folder in a tree format. It is designed to be simple, fast, and customizable.
 
 ## Installation
