@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -29,10 +30,15 @@ func printTree(currentDir string, prefix string) {
 	}
 	defer dir.Close()
 
-	entries, err := dir.Readdir(-1)
+	entries, err := dir.Readdir(-1) // Read all entries
 	if err != nil {
 		return
 	}
+
+	// Sort entries alphabetically
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].Name() < entries[j].Name()
+	})
 
 	for i, entry := range entries {
 		// Skip hidden files/directories (those starting with ".")
@@ -44,6 +50,7 @@ func printTree(currentDir string, prefix string) {
 
 		if entry.IsDir() {
 			fmt.Printf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
+			// Recursively print the contents of the directory
 			printTree(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
 		} else {
 			fmt.Printf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
