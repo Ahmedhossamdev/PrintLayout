@@ -54,7 +54,7 @@ printlayout
 To print the directory structure of a specific folder:
 
 ```bash
-printlayout /path/to/your/folder
+printlayout -dir /path/to/your/folder
 ```
 
 ### Example Output
@@ -87,7 +87,7 @@ go run ./cmd/main.go /path/to/your/folder
 ### Run the project and export the output to a file
 
 ```bash
-go run ./cmd/main.go /path/to/your/folder /path/to/output/file
+go run ./cmd/main.go -dir /path/to/your/folder -output /path/to/output/file
 ```
 
 ### Run Tests
