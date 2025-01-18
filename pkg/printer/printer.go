@@ -8,6 +8,37 @@ import (
 	"strings"
 )
 
+// PrintProjectStructureAndAddToDir prints the directory structure of the given root directory and writes it to the output file.
+func PrintProjectStructureAndAddToDir(root string, outputFile string) {
+	absRoot, err := filepath.Abs(root)
+	if err != nil {
+		fmt.Println("Error getting absolute path:", err)
+		return
+	}
+    
+	absOutputFile, err := filepath.Abs(outputFile)
+	if err != nil {
+		fmt.Println("Error getting absolute path:", err)
+		return
+	}
+
+	rootName := filepath.Base(absRoot)
+	output := fmt.Sprintf("%s/\n", rootName)
+
+	output += getTreeOutput(absRoot, "")
+
+	if absOutputFile != "" {
+		err := os.WriteFile(absOutputFile, []byte(output), 0644)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+		}
+	} else {
+		fmt.Print(output)
+	}
+
+	fmt.Println(output)
+}
+
 // PrintProjectStructure prints the folder structure starting from the specified directory.
 func PrintProjectStructure(root string) {
 	absRoot, err := filepath.Abs(root)
@@ -18,21 +49,22 @@ func PrintProjectStructure(root string) {
 
 	rootName := filepath.Base(absRoot)
 	fmt.Printf("%s/\n", rootName)
-
-	printTree(absRoot, "")
+	fmt.Print(getTreeOutput(absRoot, ""))
 }
 
-// printTree prints the directory tree structure.
-func printTree(currentDir string, prefix string) {
+// getTreeOutput returns the directory tree structure as a string.
+func getTreeOutput(currentDir string, prefix string) string {
+	var output string
+
 	dir, err := os.Open(currentDir)
 	if err != nil {
-		return
+		return output
 	}
 	defer dir.Close()
 
 	entries, err := dir.Readdir(-1)
 	if err != nil {
-		return
+		return output
 	}
 
 	sort.Slice(entries, func(i, j int) bool {
@@ -48,12 +80,14 @@ func printTree(currentDir string, prefix string) {
 		isLast := i == len(entries)-1
 
 		if entry.IsDir() {
-			fmt.Printf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
-			printTree(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
+			output += fmt.Sprintf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
+			output += getTreeOutput(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
 		} else {
-			fmt.Printf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
+			output += fmt.Sprintf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
 		}
 	}
+
+	return output
 }
 
 // getTreePrefix returns the tree prefix for the current entry.
