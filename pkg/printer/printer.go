@@ -12,16 +12,17 @@ import (
 type Config struct {
 	DirPath    string
 	OutputPath string
+	ExtFilter  string
 }
 
 // HandleFlags
 func HandleFlags(config Config) {
-	PrintProjectStructure(config.DirPath, config.OutputPath)
+	PrintProjectStructure(config.DirPath, config.OutputPath, config.ExtFilter)
 }
 
 // PrintProjectStructure prints the directory structure of the given root directory.
 // It always prints the structure to the console and writes to the output file if provided.
-func PrintProjectStructure(root string, outputFile string) {
+func PrintProjectStructure(root string, outputFile string, extFilter string) {
 	absRoot, err := filepath.Abs(root)
 	if err != nil {
 		fmt.Println("Error getting absolute path:", err)
@@ -30,7 +31,7 @@ func PrintProjectStructure(root string, outputFile string) {
 
 	rootName := filepath.Base(absRoot)
 	output := fmt.Sprintf("%s/\n", rootName)
-	output += getTreeOutput(absRoot, "")
+	output += getTreeOutput(absRoot, "", extFilter)
 
 	fmt.Print(output)
 
@@ -53,7 +54,7 @@ func writeToFile(output, outputFile string) {
 }
 
 // getTreeOutput returns the directory tree structure as a string.
-func getTreeOutput(currentDir string, prefix string) string {
+func getTreeOutput(currentDir string, prefix string, extFilter string) string {
 	var output string
 
 	dir, err := os.Open(currentDir)
@@ -81,9 +82,11 @@ func getTreeOutput(currentDir string, prefix string) string {
 
 		if entry.IsDir() {
 			output += fmt.Sprintf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
-			output += getTreeOutput(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
+			output += getTreeOutput(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast), extFilter)
 		} else {
-			output += fmt.Sprintf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
+			if extFilter == "" || strings.HasSuffix(entry.Name(), extFilter) {
+				output += fmt.Sprintf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
+			}
 		}
 	}
 

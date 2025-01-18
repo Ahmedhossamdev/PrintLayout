@@ -57,6 +57,18 @@ To print the directory structure of a specific folder:
 printlayout -dir /path/to/your/folder
 ```
 
+To print the directory structure and filter by a specific file extension (e.g., .go, .js, .rb):
+
+```bash
+printlayout -ext .js
+```
+
+To print the directory structure of a specific folder, filter by a specific file extension, and save the output to a file:
+
+```bash
+printlayout -dir /path/to/your/folder -ext .rb -output output.txt
+```
+
 ### Example Output
 
 ```bash
@@ -81,13 +93,7 @@ printLayout/
 To run the project during development without installing it:
 
 ```bash
-go run ./cmd/main.go /path/to/your/folder
-```
-
-### Run the project and export the output to a file
-
-```bash
-go run ./cmd/main.go -dir /path/to/your/folder -output /path/to/output/file
+go run ./cmd/main.go
 ```
 
 ### Run Tests
