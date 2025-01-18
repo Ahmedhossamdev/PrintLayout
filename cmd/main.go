@@ -2,28 +2,16 @@ package main
 
 import (
 	"PrintLayout/pkg/printer"
-	"os"
+	"flag"
 )
 
 func main() {
+	config := printer.Config{}
 
-	// TODO: Add advanced command-line options (depth, hidden files, etc, ignore files, etc, ignore files that in .gitignore)
+	flag.StringVar(&config.DirPath, "dir", ".", "Directory path to print the structure of")
+	flag.StringVar(&config.OutputPath, "output", "", "Output file path")
 
-	// Get the root directory 
-	root := "."
-	if len(os.Args) > 1 {
-		root = os.Args[1]
-	}
+	flag.Parse()
 
-	// the output file
-	outputFile := ".";
-	if len(os.Args) > 2 {
-		outputFile = os.Args[2]
-	}
-    
-	if outputFile == "." {
-		printer.PrintProjectStructure(root)
-	} else {
-		printer.PrintProjectStructureAndAddToDir(root, outputFile)
-	}
+	printer.PrintProjectStructure(config.DirPath, config.OutputPath)
 }

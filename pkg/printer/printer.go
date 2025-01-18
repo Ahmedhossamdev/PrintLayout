@@ -8,15 +8,21 @@ import (
 	"strings"
 )
 
-// PrintProjectStructureAndAddToDir prints the directory structure of the given root directory and writes it to the output file.
-func PrintProjectStructureAndAddToDir(root string, outputFile string) {
+// Config holds the flag values
+type Config struct {
+	DirPath    string
+	OutputPath string
+}
+
+// HandleFlags
+func HandleFlags(config Config) {
+	PrintProjectStructure(config.DirPath, config.OutputPath)
+}
+
+// PrintProjectStructure prints the directory structure of the given root directory.
+// It always prints the structure to the console and writes to the output file if provided.
+func PrintProjectStructure(root string, outputFile string) {
 	absRoot, err := filepath.Abs(root)
-	if err != nil {
-		fmt.Println("Error getting absolute path:", err)
-		return
-	}
-    
-	absOutputFile, err := filepath.Abs(outputFile)
 	if err != nil {
 		fmt.Println("Error getting absolute path:", err)
 		return
@@ -24,32 +30,26 @@ func PrintProjectStructureAndAddToDir(root string, outputFile string) {
 
 	rootName := filepath.Base(absRoot)
 	output := fmt.Sprintf("%s/\n", rootName)
-
 	output += getTreeOutput(absRoot, "")
 
-	if absOutputFile != "" {
-		err := os.WriteFile(absOutputFile, []byte(output), 0644)
-		if err != nil {
-			fmt.Println("Error writing to file:", err)
-		}
-	} else {
-		fmt.Print(output)
-	}
+	fmt.Print(output)
 
-	fmt.Println(output)
+	if outputFile != "" {
+		writeToFile(output, outputFile)
+	}
 }
 
-// PrintProjectStructure prints the folder structure starting from the specified directory.
-func PrintProjectStructure(root string) {
-	absRoot, err := filepath.Abs(root)
+// writeToFile writes the output to the specified file
+func writeToFile(output, outputFile string) {
+	absOutputFile, err := filepath.Abs(outputFile)
 	if err != nil {
 		fmt.Println("Error getting absolute path:", err)
 		return
 	}
-
-	rootName := filepath.Base(absRoot)
-	fmt.Printf("%s/\n", rootName)
-	fmt.Print(getTreeOutput(absRoot, ""))
+	err = os.WriteFile(absOutputFile, []byte(output), 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+	}
 }
 
 // getTreeOutput returns the directory tree structure as a string.
