@@ -136,10 +136,8 @@ Contributions are welcome! If you'd like to contribute, please follow these step
 3. Make your changes and write tests if applicable.
 4. Submit a pull request with a detailed description of your changes.
 
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
 
 ## Acknowledgments
 
 - Built with Go for simplicity and performance.
+- Inspired by GNU Tree: Incorporating all the features of GNU Tree while innovating with new functionalities to enhance the user experience.
