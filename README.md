@@ -7,6 +7,7 @@ PrintLayout is a command-line tool that prints the directory structure of a spec
 ## Installation
 
 ### Option 1: Go Install
+
 To install PrintLayout, run:
 
 ```bash
@@ -34,10 +35,6 @@ Download the pre-built binary for your operating system from the [Releases page]
    ```bash
       printlayout or printlayout /path/to/your/folder
    ```
-   
-
-
-   
 
 #### Windows
 
@@ -87,6 +84,12 @@ To run the project during development without installing it:
 go run ./cmd/main.go /path/to/your/folder
 ```
 
+### Run the project and export the output to a file
+
+```bash
+go run ./cmd/main.go /path/to/your/folder /path/to/output/file
+```
+
 ### Run Tests
 
 To run the tests:
@@ -110,17 +113,19 @@ This will create an executable named printlayout in your project directory.
 Here are some ideas for future improvements to the project:
 
 1. Advanced Command-Line Options:
-   - Add support for limiting the depth of the directory tree (e.g., --depth 2).
-   - Add an option to include hidden files and directories (e.g., --hidden).
-   - Add an option to ignore files and directories listed in .gitignore (e.g., --ignore-gitignore).
+
+   - [ ] Add support for limiting the depth of the directory tree (e.g., --depth 2).
+   - [ ] an option to include hidden files and directories (e.g., --hidden).
+   - [ ] an option to ignore files and directories listed in .gitignore (e.g., --ignore-gitignore).
 
 2. Customizable Output:
-   - Add support for customizing the tree symbols (e.g., --symbols=ascii for ASCII-only output).
-   - Add support for exporting the directory structure to a file (e.g., --output tree.txt).
+
+   - [ ] support for customizing the tree symbols (e.g., --symbols=ascii for ASCII-only output).
+   - [x] support for exporting the directory structure to a file (e.g., --output tree.txt).
 
 3. Performance Improvements:
-   - Optimize the directory traversal for large directories.
-   - Add support for parallel processing of directories.
+   - [ ] Optimize the directory traversal for large directories.
+   - [ ] Add support for parallel processing of directories.
 
 ## Contributing
 
