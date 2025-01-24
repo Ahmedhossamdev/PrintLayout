@@ -22,7 +22,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	os.Chdir(tmpDir)
 
 	output := captureOutput(func() {
-		PrintProjectStructure(".", "", "")
+		PrintProjectStructure(".", "", "", false)
 	})
 
 	rootName := filepath.Base(tmpDir)

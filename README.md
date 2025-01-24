@@ -121,7 +121,7 @@ Here are some ideas for future improvements to the project:
 1. Advanced Command-Line Options:
 
    - [ ] Add support for limiting the depth of the directory tree (e.g., --depth 2).
-   - [ ] an option to include hidden files and directories (e.g., --hidden).
+   - [x] an option to include hidden files and directories (e.g., --hidden).
    - [ ] an option to ignore files and directories listed in .gitignore (e.g., --ignore-gitignore).
 
 2. Customizable Output:
