@@ -23,7 +23,7 @@ Download the pre-built binary for your operating system from the [Releases page]
    ```
 4. Run the program:
    ```bash
-      pr -dir /path/to/your/folder or pr to print the current dir
+   pr -dir /path/to/your/folder or pr to print the current dir
    ```
 
 #### Windows
