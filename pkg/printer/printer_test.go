@@ -182,6 +182,17 @@ func TestPrintProjectStructure(t *testing.T) {
 		// You can add specific checks based on your expected output
 		t.Log(output)
 	})
+
+	// Test including hidden files
+	t.Run("IncludeHidden", func(t *testing.T) {
+		output := captureOutput(func() {
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", true)
+		})
+
+		// Verify that the output includes the hidden files
+		// You can add specific checks based on your expected output
+		t.Log(output)
+	})
 }
 
 // createTestProjectStructure creates a sample project structure for testing.
