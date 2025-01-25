@@ -178,6 +178,7 @@ printLayout/
 
 ```bash
 pr --dir /path/to/your/folder --ext .go --sort-by size --order desc --output output.txt --no-color
+```
 
 ## Development
 
