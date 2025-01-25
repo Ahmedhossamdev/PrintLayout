@@ -14,14 +14,17 @@ Download the pre-built binary for your operating system from the [Releases page]
 
 1. Download the binary for your platform (e.g., `printlayout-linux-amd64` or `printlayout-darwin-amd64`).
 2. Make the binary executable:
+3. 
    ```bash
    chmod +x printlayout-linux-amd64
    ```
-3. Move the binary to a directory in your `PATH` (e.g., `/usr/local/bin`):
+4. Move the binary to a directory in your `PATH` (e.g., `/usr/local/bin`):
+5. 
    ```bash
    sudo mv pr-linux-amd64 /usr/local/bin/printlayout
    ```
-4. Run the program:
+6. Run the program:
+7. 
    ```bash
    pr -dir /path/to/your/folder or pr to print the current dir
    ```
