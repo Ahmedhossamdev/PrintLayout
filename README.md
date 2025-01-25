@@ -1,149 +1,125 @@
-# PrintLayout
+# PrintLayout 🌳
 
-![PrintLayout Logo](assets/printlayoutlogo.webp)
+![PrintLayout Logo](assets/image.png)
 
-PrintLayout is a command-line tool that prints the directory structure of a specified folder in a tree format. It is designed to be simple, fast, and customizable.
+PrintLayout is a powerful, customizable command-line tool for printing directory structures in a tree format. Built with Go for simplicity and performance, it offers extensive features for visualizing and exploring file systems.
 
-## Installation
+## 🚀 Installation
 
-### Option 1: Go Install
+### Pre-Built Binaries
 
-To install PrintLayout, run:
-
-```bash
-go install github.com/Ahmedhossamdev/PrintLayout/cmd/main.go
-```
-
-This will install the printlayout executable to your $GOPATH/bin directory. Make sure $GOPATH/bin is in your PATH environment variable.
-
-### Option 2: Download Pre-Built Binaries
-
-Download the pre-built binary for your operating system from the [Releases page](#).
+Download the appropriate binary for your operating system from the [Releases page](https://github.com/Ahmedhossamdev/PrintLayout/releases).
 
 #### Linux/macOS
+```bash
+# Download binary
+chmod +x pr-linux-amd64
+sudo mv pr-linux-amd64 /usr/local/bin/pr
 
-1. Download the binary for your platform (e.g., `printlayout-linux-amd64` or `printlayout-darwin-amd64`).
-2. Make the binary executable:
-   ```bash
-   chmod +x printlayout-linux-amd64
-   ```
-3. Move the binary to a directory in your `PATH` (e.g., `/usr/local/bin`):
-   ```bash
-   sudo mv printlayout-linux-amd64 /usr/local/bin/printlayout
-   ```
-4. Run the program:
-   ```bash
-      printlayout or printlayout /path/to/your/folder
-   ```
+# Run
+pr -dir /path/to/your/folder
+```
 
 #### Windows
+1. Download `pr-windows-amd64.exe`
+2. Move to a directory in your `PATH`
 
-1. Download the binary for your platform (e.g., `printlayout-windows-amd64.exe`).
-2. Move the binary to a directory in your `PATH` (e.g., `C:\Windows\System32`).
+## 📋 Command-Line Flags
 
-## Usage
+### Basic Flags
 
-### Print the Directory Structure
+| Flag | Description | Default | Example |
+|------|-------------|---------|---------|
+| `--dir` | Specify directory to print | Current directory | `pr --dir /path/to/folder` |
+| `--ext` | Filter files by extension | All files | `pr --ext .go` |
+| `--output` | Save output to file | Terminal output | `pr --output output.txt` |
+| `--no-color` | Disable colored output | Colors enabled | `pr --no-color` |
 
-To print the directory structure of the current folder:
+### Sorting Flags
 
+| Flag | Description | Options | Default | Example |
+|------|-------------|---------|---------|---------|
+| `--sort-by` | Sort criteria | `name`, `size`, `time` | `name` | `pr --sort-by size` |
+| `--order` | Sorting order | `asc`, `desc` | `asc` | `pr --sort-by time --order desc` |
+
+### Exclusion Flags
+
+| Flag | Description | Default | Example |
+|------|-------------|---------|---------|
+| `--exclude` | Exclude files/dirs matching pattern | No exclusions | `pr --exclude "*.log"` |
+
+### Output Format Flags
+
+| Flag | Description | Options | Default | Example |
+|------|-------------|---------|---------|---------|
+| `--format` | Output format | `text`, `json`, `xml`, `yaml` | `text` | `pr --format json` |
+
+### Color Customization Flags
+
+| Flag | Description | Options | Default | Example |
+|------|-------------|---------|---------|---------|
+| `--dir-color` | Directory color | `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white` | `blue` | `pr --dir-color green` |
+| `--file-color` | File color | Same as above | `green` | `pr --file-color yellow` |
+| `--exec-color` | Executable file color | Same as above | `red` | `pr --exec-color magenta` |
+
+### Supported Colors (We will add more)
+
+printLayout supports the following colors for customization:
+
+- `black`
+- `red`
+- `green`
+- `yellow`
+- `blue`
+- `magenta`
+- `cyan`
+- `white`
+
+## 🔍 Basic Examples
+
+### 1. Print the current directory structure
 ```bash
-printlayout
+ pr
+```
+### 2. Specify a directory to explore
+```bash
+pr --dir ./path/to/project
 ```
 
-To print the directory structure of a specific folder:
-
+### 3.Combined flags
 ```bash
-printlayout -dir /path/to/your/folder
+pr --dir /path/to/project --ext .ts --sort-by size --order desc --exclude "node_modules" --exclude "*.test" --dir-color magenta --file-color cyan --output project_structure.txt
 ```
 
-To print the directory structure and filter by a specific file extension (e.g., .go, .js, .rb):
+## 🛠 Development
 
-```bash
-printlayout -ext .js
-```
-
-To print the directory structure of a specific folder, filter by a specific file extension, and save the output to a file:
-
-```bash
-printlayout -dir /path/to/your/folder -ext .rb -output output.txt
-```
-
-### Example Output
-
-```bash
-$ printlayout /path/to/your/folder
-printLayout/
-├── cmd/
-│   └── main.go
-├── go.mod
-├── internal/
-│   └── utils/
-│       └── utils.go
-└── pkg/
-    └── printer/
-        ├── printer.go
-        └── printer_test.go
-```
-
-## Development
-
-### Run the Project in Development
-
-To run the project during development without installing it:
-
+### Run Project
 ```bash
 go run ./cmd/main.go
 ```
 
 ### Run Tests
-
-To run the tests:
-
 ```bash
 go test -v ./...
 ```
 
-### Build the Project
-
-To build the project:
-
+### Build Project
 ```bash
 go build -o printlayout ./cmd/main.go
 ```
 
-This will create an executable named printlayout in your project directory.
+## 🤝 Contributing
 
-## Future Improvements (TODOs)
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Push and submit a pull request
 
-Here are some ideas for future improvements to the project:
+## 📜 License
 
-1. Advanced Command-Line Options:
+I don't know about License stuff, but this project made by me
 
-   - [ ] Add support for limiting the depth of the directory tree (e.g., --depth 2).
-   - [x] an option to include hidden files and directories (e.g., --hidden).
-   - [ ] an option to ignore files and directories listed in .gitignore (e.g., --ignore-gitignore).
+## 🙏 Acknowledgments
 
-2. Customizable Output:
-
-   - [ ] support for customizing the tree symbols (e.g., --symbols=ascii for ASCII-only output).
-   - [x] support for exporting the directory structure to a file (e.g., --output tree.txt).
-
-3. Performance Improvements:
-   - [ ] Optimize the directory traversal for large directories.
-   - [ ] Add support for parallel processing of directories.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Make your changes and write tests if applicable.
-4. Submit a pull request with a detailed description of your changes.
-
-
-## Acknowledgments
-
-- Built with Go for simplicity and performance.
-- Inspired by GNU Tree: Incorporating all the features of GNU Tree while innovating with new functionalities to enhance the user experience.
+- Built with Go
+- Inspired by GNU Tree
