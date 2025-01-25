@@ -6,19 +6,9 @@ PrintLayout is a command-line tool that prints the directory structure of a spec
 
 ## Installation
 
-### Option 1: Go Install
+### Option 1: Download Pre-Built Binaries
 
-To install PrintLayout, run:
-
-```bash
-go install github.com/Ahmedhossamdev/PrintLayout/cmd/main.go
-```
-
-This will install the printlayout executable to your $GOPATH/bin directory. Make sure $GOPATH/bin is in your PATH environment variable.
-
-### Option 2: Download Pre-Built Binaries
-
-Download the pre-built binary for your operating system from the [Releases page](#).
+Download the pre-built binary for your operating system from the [Releases page](https://github.com/Ahmedhossamdev/PrintLayout/releases).
 
 #### Linux/macOS
 
