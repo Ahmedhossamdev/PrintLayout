@@ -123,3 +123,8 @@ I don't know about License stuff, but this project made by me
 
 - Built with Go
 - Inspired by GNU Tree
+
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
