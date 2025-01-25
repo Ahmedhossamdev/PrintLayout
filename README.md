@@ -34,6 +34,7 @@ pr -dir /path/to/your/folder
 | `--ext` | Filter files by extension | All files | `pr --ext .go` |
 | `--output` | Save output to file | Terminal output | `pr --output output.txt` |
 | `--no-color` | Disable colored output | Colors enabled | `pr --no-color` |
+| `--hidden` | Include hidden files | Not included | `pr --hidden` |
 
 ### Sorting Flags
 

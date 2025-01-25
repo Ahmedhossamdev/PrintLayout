@@ -29,7 +29,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test text output
 	t.Run("TextOutput", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false)
 		})
 
 		rootName := filepath.Base(tmpDir)
@@ -57,7 +57,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test JSON output
 	t.Run("JSONOutput", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "json", "blue", "green", "red", []string{}, "name", "asc")
+			PrintProjectStructure(".", "", "", false, "json", "blue", "green", "red", []string{}, "name", "asc", false)
 		})
 
 		// Verify that the output is valid JSON
@@ -70,7 +70,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test XML output
 	t.Run("XMLOutput", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "xml", "blue", "green", "red", []string{}, "name", "asc")
+			PrintProjectStructure(".", "", "", false, "xml", "blue", "green", "red", []string{}, "name", "asc", false)
 		})
 
 		// Verify that the output is valid XML
@@ -83,7 +83,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test YAML output
 	t.Run("YAMLOutput", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "yaml", "blue", "green", "red", []string{}, "name", "asc")
+			PrintProjectStructure(".", "", "", false, "yaml", "blue", "green", "red", []string{}, "name", "asc", false)
 		})
 
 		// Verify that the output is valid YAML
@@ -96,7 +96,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test exclusion patterns
 	t.Run("ExclusionPatterns", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{"*.go"}, "name", "asc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{"*.go"}, "name", "asc", false)
 		})
 
 		rootName := filepath.Base(tmpDir)
@@ -120,7 +120,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test sorting by name (ascending)
 	t.Run("SortByNameAsc", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false)
 		})
 
 		// Verify that the output is sorted by name in ascending order
@@ -131,7 +131,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test sorting by name (descending)
 	t.Run("SortByNameDesc", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "desc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "desc", false)
 		})
 
 		// Verify that the output is sorted by name in descending order
@@ -142,7 +142,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test sorting by size (ascending)
 	t.Run("SortBySizeAsc", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "size", "asc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "size", "asc", false)
 		})
 
 		// Verify that the output is sorted by size in ascending order
@@ -153,7 +153,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test sorting by size (descending)
 	t.Run("SortBySizeDesc", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "size", "desc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "size", "desc", false)
 		})
 
 		// Verify that the output is sorted by size in descending order
@@ -164,7 +164,7 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test sorting by time (ascending)
 	t.Run("SortByTimeAsc", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "time", "asc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "time", "asc", false)
 		})
 
 		// Verify that the output is sorted by time in ascending order
@@ -175,10 +175,21 @@ func TestPrintProjectStructure(t *testing.T) {
 	// Test sorting by time (descending)
 	t.Run("SortByTimeDesc", func(t *testing.T) {
 		output := captureOutput(func() {
-			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "time", "desc")
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "time", "desc", false)
 		})
 
 		// Verify that the output is sorted by time in descending order
+		// You can add specific checks based on your expected output
+		t.Log(output)
+	})
+
+	// Test including hidden files
+	t.Run("IncludeHidden", func(t *testing.T) {
+		output := captureOutput(func() {
+			PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", true)
+		})
+
+		// Verify that the output includes the hidden files
 		// You can add specific checks based on your expected output
 		t.Log(output)
 	})

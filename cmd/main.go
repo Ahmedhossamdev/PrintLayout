@@ -19,6 +19,7 @@ func main() {
 	flag.StringVar(&config.ExecColor, "exec-color", "red", "Color for executables (e.g., red, green, blue)")
 	flag.StringVar(&config.SortBy, "sort-by", "name", "Sort by 'name', 'size', or 'time'")
 	flag.StringVar(&config.Order, "order", "asc", "Sort order 'asc' or 'desc'")
+	flag.BoolVar(&config.IncludeHidden, "hidden", false, "Include hidden files and directories")
 
 	// Add --exclude flag to specify exclusion patterns
 	flag.Func("exclude", "Exclude files/directories matching the pattern (can be specified multiple times)", func(pattern string) error {
@@ -41,5 +42,6 @@ func main() {
 		config.ExcludePatterns,
 		config.SortBy,
 		config.Order,
+		config.IncludeHidden,
 	)
 }
