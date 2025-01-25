@@ -106,7 +106,7 @@ func PrintProjectStructure(
 			return
 		}
 
-		fmt.Print(output)
+		fmt.Println(output)
 
 		if outputFile != "" {
 			writeToFile(output, outputFile)
