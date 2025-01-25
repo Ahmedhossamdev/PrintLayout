@@ -29,11 +29,11 @@ Download the pre-built binary for your operating system from the [Releases page]
    ```
 3. Move the binary to a directory in your `PATH` (e.g., `/usr/local/bin`):
    ```bash
-   sudo mv printlayout-linux-amd64 /usr/local/bin/printlayout
+   sudo mv pr-linux-amd64 /usr/local/bin/printlayout
    ```
 4. Run the program:
    ```bash
-      printlayout or printlayout /path/to/your/folder
+      pr -dir /path/to/your/folder or pr to print the current dir
    ```
 
 #### Windows
@@ -48,31 +48,31 @@ Download the pre-built binary for your operating system from the [Releases page]
 To print the directory structure of the current folder:
 
 ```bash
-printlayout
+pr
 ```
 
 To print the directory structure of a specific folder:
 
 ```bash
-printlayout -dir /path/to/your/folder
+pr -dir /path/to/your/folder
 ```
 
 To print the directory structure and filter by a specific file extension (e.g., .go, .js, .rb):
 
 ```bash
-printlayout -ext .js
+pr -ext .js
 ```
 
 To print the directory structure of a specific folder, filter by a specific file extension, and save the output to a file:
 
 ```bash
-printlayout -dir /path/to/your/folder -ext .rb -output output.txt
+pr -dir /path/to/your/folder -ext .rb -output output.txt
 ```
 
 ### Example Output
 
 ```bash
-$ printlayout /path/to/your/folder
+$ pr -dir /path/to/your/folder
 printLayout/
 ├── cmd/
 │   └── main.go
@@ -85,6 +85,99 @@ printLayout/
         ├── printer.go
         └── printer_test.go
 ```
+
+# `pr` Command-Line Flags
+
+## Basic Flags
+
+### `--dir`
+- **Description**: Specifies the directory to print the structure of.
+- **Default**: Current directory (`.`)
+- **Example**: `pr --dir /path/to/your/folder`
+
+### `--ext`
+- **Description**: Filters files by a specific extension (e.g., `.go`, `.js`)
+- **Default**: No filter (all files are included)
+- **Example**: `pr --ext .go`
+
+### `--output`
+- **Description**: Saves the output to a file instead of printing it to the terminal
+- **Default**: Output is printed to the terminal
+- **Example**: `pr --output output.txt`
+
+### `--no-color`
+- **Description**: Disables colored output
+- **Default**: Colors are enabled
+- **Example**: `pr --no-color`
+
+## Sorting Flags
+
+### `--sort-by`
+- **Description**: Specifies the sorting criteria
+- **Options**: 
+  - `name`: Sort by file/directory name
+  - `size`: Sort by file size
+  - `time`: Sort by modification time
+- **Default**: `name`
+- **Example**: `pr --sort-by size`
+
+### `--order`
+- **Description**: Specifies the sorting order
+- **Options**:
+  - `asc`: Ascending order
+  - `desc`: Descending order
+- **Default**: `asc`
+- **Example**: `pr --sort-by time --order desc`
+
+## Exclusion Flags
+
+### `--exclude`
+- **Description**: Excludes files or directories matching the specified pattern (can be used multiple times)
+- **Default**: No exclusions
+- **Example**: `pr --exclude "*.log" --exclude "tmp/*"`
+
+## Output Format Flags
+
+### `--format`
+- **Description**: Specifies the output format
+- **Options**:
+  - `text`: Plain text format (default)
+  - `json`: JSON format
+  - `xml`: XML format
+  - `yaml`: YAML format
+- **Default**: `text`
+- **Example**: `pr --format json`
+
+## Color Customization Flags
+
+### `--dir-color`
+- **Description**: Specifies the color for directories
+- **Options**: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
+- **Default**: `blue`
+- **Example**: `pr --dir-color green`
+
+### `--file-color`
+- **Description**: Specifies the color for files
+- **Options**: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
+- **Default**: `green`
+- **Example**: `pr --file-color yellow`
+
+### `--exec-color`
+- **Description**: Specifies the color for executable files
+- **Options**: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
+- **Default**: `red`
+- **Example**: `pr --exec-color magenta`
+
+## Help Flag
+
+### `--help` or `-h`
+- **Description**: Displays the help message with all available flags and usage examples
+- **Example**: `pr --help`
+
+## Combined Flags Example
+
+```bash
+pr --dir /path/to/your/folder --ext .go --sort-by size --order desc --output output.txt --no-color
 
 ## Development
 
