@@ -21,7 +21,7 @@ Download the pre-built binary for your operating system from the [Releases page]
 4. Move the binary to a directory in your `PATH` (e.g., `/usr/local/bin`):
 5. 
    ```bash
-   sudo mv pr-linux-amd64 /usr/local/bin/printlayout
+   sudo mv printlayout-linux-amd64 /usr/local/bin/printlayout
    ```
 6. Run the program:
 7. 
