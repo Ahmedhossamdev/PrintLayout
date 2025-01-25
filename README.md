@@ -1,236 +1,125 @@
-# PrintLayout
+# PrintLayout 🌳
 
-![PrintLayout Logo](assets/printlayoutlogo.webp)
+![PrintLayout Logo](assets/image.png)
 
-PrintLayout is a command-line tool that prints the directory structure of a specified folder in a tree format. It is designed to be simple, fast, and customizable.
+PrintLayout is a powerful, customizable command-line tool for printing directory structures in a tree format. Built with Go for simplicity and performance, it offers extensive features for visualizing and exploring file systems.
 
-## Installation
+## 🚀 Installation
 
-### Option 1: Download Pre-Built Binaries
+### Pre-Built Binaries
 
-Download the pre-built binary for your operating system from the [Releases page](https://github.com/Ahmedhossamdev/PrintLayout/releases).
+Download the appropriate binary for your operating system from the [Releases page](https://github.com/Ahmedhossamdev/PrintLayout/releases).
 
 #### Linux/macOS
-
-1. Download the binary for your platform (e.g., `printlayout-linux-amd64` or `printlayout-darwin-amd64`).
-2. Make the binary executable:
-3. 
-   ```bash
-   chmod +x printlayout-linux-amd64
-   ```
-4. Move the binary to a directory in your `PATH` (e.g., `/usr/local/bin`):
-5. 
-   ```bash
-   sudo mv printlayout-linux-amd64 /usr/local/bin/printlayout
-   ```
-6. Run the program:
-7. 
-   ```bash
-   pr -dir /path/to/your/folder or pr to print the current dir
-   ```
-
-#### Windows
-
-1. Download the binary for your platform (e.g., `printlayout-windows-amd64.exe`).
-2. Move the binary to a directory in your `PATH` (e.g., `C:\Windows\System32`).
-
-## Usage
-
-### Print the Directory Structure
-
-To print the directory structure of the current folder:
-
 ```bash
-pr
-```
+# Download binary
+chmod +x pr-linux-amd64
+sudo mv pr-linux-amd64 /usr/local/bin/pr
 
-To print the directory structure of a specific folder:****
-
-```bash
+# Run
 pr -dir /path/to/your/folder
 ```
 
-To print the directory structure and filter by a specific file extension (e.g., .go, .js, .rb):
+#### Windows
+1. Download `pr-windows-amd64.exe`
+2. Move to a directory in your `PATH`
 
+## 📋 Command-Line Flags
+
+### Basic Flags
+
+| Flag | Description | Default | Example |
+|------|-------------|---------|---------|
+| `--dir` | Specify directory to print | Current directory | `pr --dir /path/to/folder` |
+| `--ext` | Filter files by extension | All files | `pr --ext .go` |
+| `--output` | Save output to file | Terminal output | `pr --output output.txt` |
+| `--no-color` | Disable colored output | Colors enabled | `pr --no-color` |
+
+### Sorting Flags
+
+| Flag | Description | Options | Default | Example |
+|------|-------------|---------|---------|---------|
+| `--sort-by` | Sort criteria | `name`, `size`, `time` | `name` | `pr --sort-by size` |
+| `--order` | Sorting order | `asc`, `desc` | `asc` | `pr --sort-by time --order desc` |
+
+### Exclusion Flags
+
+| Flag | Description | Default | Example |
+|------|-------------|---------|---------|
+| `--exclude` | Exclude files/dirs matching pattern | No exclusions | `pr --exclude "*.log"` |
+
+### Output Format Flags
+
+| Flag | Description | Options | Default | Example |
+|------|-------------|---------|---------|---------|
+| `--format` | Output format | `text`, `json`, `xml`, `yaml` | `text` | `pr --format json` |
+
+### Color Customization Flags
+
+| Flag | Description | Options | Default | Example |
+|------|-------------|---------|---------|---------|
+| `--dir-color` | Directory color | `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white` | `blue` | `pr --dir-color green` |
+| `--file-color` | File color | Same as above | `green` | `pr --file-color yellow` |
+| `--exec-color` | Executable file color | Same as above | `red` | `pr --exec-color magenta` |
+
+### Supported Colors (We will add more)
+
+printLayout supports the following colors for customization:
+
+- `black`
+- `red`
+- `green`
+- `yellow`
+- `blue`
+- `magenta`
+- `cyan`
+- `white`
+
+## 🔍 Basic Examples
+
+### 1. Print the current directory structure
 ```bash
-pr -ext .js
+ pr
+```
+### 2. Specify a directory to explore
+```bash
+pr --dir ./path/to/project
 ```
 
-To print the directory structure of a specific folder, filter by a specific file extension, and save the output to a file:
-
+### 3.Combined flags
 ```bash
-pr -dir /path/to/your/folder -ext .rb -output output.txt
+pr --dir /path/to/project --ext .ts --sort-by size --order desc --exclude "node_modules" --exclude "*.test" --dir-color magenta --file-color cyan --output project_structure.txt
 ```
 
-### Example Output
+## 🛠 Development
 
-```bash
-$ pr -dir /path/to/your/folder
-printLayout/
-├── cmd/
-│   └── main.go
-├── go.mod
-├── internal/
-│   └── utils/
-│       └── utils.go
-└── pkg/
-    └── printer/
-        ├── printer.go
-        └── printer_test.go
-```
-
-# `pr` Command-Line Flags
-
-## Basic Flags
-
-### `--dir`
-- **Description**: Specifies the directory to print the structure of.
-- **Default**: Current directory (`.`)
-- **Example**: `pr --dir /path/to/your/folder`
-
-### `--ext`
-- **Description**: Filters files by a specific extension (e.g., `.go`, `.js`)
-- **Default**: No filter (all files are included)
-- **Example**: `pr --ext .go`
-
-### `--output`
-- **Description**: Saves the output to a file instead of printing it to the terminal
-- **Default**: Output is printed to the terminal
-- **Example**: `pr --output output.txt`
-
-### `--no-color`
-- **Description**: Disables colored output
-- **Default**: Colors are enabled
-- **Example**: `pr --no-color`
-
-## Sorting Flags
-
-### `--sort-by`
-- **Description**: Specifies the sorting criteria
-- **Options**:
-  - `name`: Sort by file/directory name
-  - `size`: Sort by file size
-  - `time`: Sort by modification time
-- **Default**: `name`
-- **Example**: `pr --sort-by size`
-
-### `--order`
-- **Description**: Specifies the sorting order
-- **Options**:
-  - `asc`: Ascending order
-  - `desc`: Descending order
-- **Default**: `asc`
-- **Example**: `pr --sort-by time --order desc`
-
-## Exclusion Flags
-
-### `--exclude`
-- **Description**: Excludes files or directories matching the specified pattern (can be used multiple times)
-- **Default**: No exclusions
-- **Example**: `pr --exclude "*.log" --exclude "tmp/*"`
-
-## Output Format Flags
-
-### `--format`
-- **Description**: Specifies the output format
-- **Options**:
-  - `text`: Plain text format (default)
-  - `json`: JSON format
-  - `xml`: XML format
-  - `yaml`: YAML format
-- **Default**: `text`
-- **Example**: `pr --format json`
-
-## Color Customization Flags
-
-### `--dir-color`
-- **Description**: Specifies the color for directories
-- **Options**: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
-- **Default**: `blue`
-- **Example**: `pr --dir-color green`
-
-### `--file-color`
-- **Description**: Specifies the color for files
-- **Options**: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
-- **Default**: `green`
-- **Example**: `pr --file-color yellow`
-
-### `--exec-color`
-- **Description**: Specifies the color for executable files
-- **Options**: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
-- **Default**: `red`
-- **Example**: `pr --exec-color magenta`
-
-## Help Flag
-
-### `--help` or `-h`
-- **Description**: Displays the help message with all available flags and usage examples
-- **Example**: `pr --help`
-
-## Combined Flags Example
-
-```bash
-pr --dir /path/to/your/folder --ext .go --sort-by size --order desc --output output.txt --no-color
-```
-
-## Development
-
-### Run the Project in Development
-
-To run the project during development without installing it:
-
+### Run Project
 ```bash
 go run ./cmd/main.go
 ```
 
 ### Run Tests
-
-To run the tests:
-
 ```bash
 go test -v ./...
 ```
 
-### Build the Project
-
-To build the project:
-
+### Build Project
 ```bash
 go build -o printlayout ./cmd/main.go
 ```
 
-This will create an executable named printlayout in your project directory.
+## 🤝 Contributing
 
-## Future Improvements (TODOs)
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Push and submit a pull request
 
-Here are some ideas for future improvements to the project:
+## 📜 License
 
-1. Advanced Command-Line Options:
+I don't know about License stuff, but this project made by me
 
-   - [ ] Add support for limiting the depth of the directory tree (e.g., --depth 2).
-   - [ ] an option to include hidden files and directories (e.g., --hidden).
-   - [ ] an option to ignore files and directories listed in .gitignore (e.g., --ignore-gitignore).
+## 🙏 Acknowledgments
 
-2. Customizable Output:
-
-   - [ ] support for customizing the tree symbols (e.g., --symbols=ascii for ASCII-only output).
-   - [x] support for exporting the directory structure to a file (e.g., --output tree.txt).
-
-3. Performance Improvements:
-   - [ ] Optimize the directory traversal for large directories.
-   - [ ] Add support for parallel processing of directories.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Make your changes and write tests if applicable.
-4. Submit a pull request with a detailed description of your changes.
-
-
-## Acknowledgments
-
-- Built with Go for simplicity and performance.
-- Inspired by GNU Tree: Incorporating all the features of GNU Tree while innovating with new functionalities to enhance the user experience.
+- Built with Go
+- Inspired by GNU Tree
