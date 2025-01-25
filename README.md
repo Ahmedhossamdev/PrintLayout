@@ -51,7 +51,7 @@ To print the directory structure of the current folder:
 pr
 ```
 
-To print the directory structure of a specific folder:
+To print the directory structure of a specific folder:****
 
 ```bash
 pr -dir /path/to/your/folder
@@ -114,7 +114,7 @@ printLayout/
 
 ### `--sort-by`
 - **Description**: Specifies the sorting criteria
-- **Options**: 
+- **Options**:
   - `name`: Sort by file/directory name
   - `size`: Sort by file size
   - `time`: Sort by modification time
