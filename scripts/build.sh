@@ -12,10 +12,11 @@ PLATFORMS=(
 for PLATFORM in "${PLATFORMS[@]}"; do
   OS=$(echo $PLATFORM | cut -d'/' -f1)
   ARCH=$(echo $PLATFORM | cut -d'/' -f2)
-  OUTPUT_NAME="pr-$OS-$ARCH"
 
   if [ "$OS" = "windows" ]; then
-    OUTPUT_NAME="$OUTPUT_NAME.exe"
+    OUTPUT_NAME="pr.exe"
+  else
+    OUTPUT_NAME="pr-$OS-$ARCH"
   fi
 
   echo "Building for $OS/$ARCH..."
