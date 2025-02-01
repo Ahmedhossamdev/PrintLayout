@@ -85,12 +85,11 @@ func PrintProjectStructure(
 		return
 	}
 
+	var output string
 	if format == "text" {
-		dirCount, fileCount := getTreeOutput(absRoot, extFilter, useColor, dirColorName, fileColorName, execColorName, excludePatterns, sortBy, order, includeHidden)
-		fmt.Printf("\n%d directories, %d files\n", dirCount, fileCount)
+		output = getTreeOutput(absRoot, extFilter, useColor, dirColorName, fileColorName, execColorName, excludePatterns, sortBy, order, includeHidden)
 	} else {
 		tree := buildTree(absRoot, extFilter, excludePatterns, sortBy, order, includeHidden)
-		var output string
 		switch format {
 		case "json":
 			data, _ := json.MarshalIndent(tree, "", "  ")
@@ -107,14 +106,15 @@ func PrintProjectStructure(
 		}
 
 		fmt.Println(output)
+	}
 
-		if outputFile != "" {
-			writeToFile(output, outputFile)
-		}
+	if outputFile != "" {
+		writeToFile(output, outputFile)
 	}
 }
 
-func getTreeOutput(root string, extFilter string, useColor bool, dirColorName string, fileColorName string, execColorName string, excludePatterns []string, sortBy string, order string, includeHidden bool) (int, int) {
+func getTreeOutput(root string, extFilter string, useColor bool, dirColorName string, fileColorName string, execColorName string, excludePatterns []string, sortBy string, order string, includeHidden bool) string {
+	output := ""
 	dirCount := 0
 	fileCount := 0
 
@@ -159,6 +159,7 @@ func getTreeOutput(root string, extFilter string, useColor bool, dirColorName st
 				} else {
 					fmt.Printf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
 				}
+				output += fmt.Sprintf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
 
 				err := traverse(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
 				if err != nil {
@@ -179,6 +180,7 @@ func getTreeOutput(root string, extFilter string, useColor bool, dirColorName st
 					} else {
 						fmt.Printf("%s%s\n", prefix+getTreePrefix(isLast), entry.Name())
 					}
+					output += fmt.Sprintf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
 				}
 			}
 		}
@@ -187,12 +189,17 @@ func getTreeOutput(root string, extFilter string, useColor bool, dirColorName st
 	}
 
 	fmt.Printf("%s/\n", filepath.Base(root))
+	output += fmt.Sprintf("%s/\n", filepath.Base(root))
+
 	err := traverse(root, "")
 	if err != nil {
 		fmt.Println("Error traversing directory:", err)
+		output += fmt.Sprintf("Error traversing directory: %v\n", err)
 	}
+	fmt.Printf("\n%d directories, %d files\n", dirCount, fileCount)
+	output += fmt.Sprintf("\n%d directories, %d files\n", dirCount, fileCount)
 
-	return dirCount, fileCount
+	return output
 }
 
 // sortEntries sorts the entries based on the specified criteria and order
