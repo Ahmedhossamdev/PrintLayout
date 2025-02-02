@@ -3,6 +3,8 @@ package main
 import (
 	"PrintLayout/pkg/printer"
 	"flag"
+	"fmt"
+	"os"
 )
 
 func main() {
@@ -20,6 +22,7 @@ func main() {
 	flag.StringVar(&config.SortBy, "sort-by", "name", "Sort by 'name', 'size', or 'time'")
 	flag.StringVar(&config.Order, "order", "asc", "Sort order 'asc' or 'desc'")
 	flag.BoolVar(&config.IncludeHidden, "hidden", false, "Include hidden files and directories")
+	flag.IntVar(&config.MaxDepth, "max-depth", -1, "Maximum depth of directory traversal")
 
 	// Add --exclude flag to specify exclusion patterns
 	flag.Func("exclude", "Exclude files/directories matching the pattern (can be specified multiple times)", func(pattern string) error {
@@ -29,6 +32,12 @@ func main() {
 
 	// Parse flags
 	flag.Parse()
+
+	// Validate max-depth
+	if config.MaxDepth < -1 {
+		fmt.Fprintln(os.Stderr, "Error: --max-depth must be -1 (unlimited) or a non-negative integer.")
+		return
+	}
 
 	printer.PrintProjectStructure(
 		config.DirPath,
@@ -43,5 +52,6 @@ func main() {
 		config.SortBy,
 		config.Order,
 		config.IncludeHidden,
+		config.MaxDepth,
 	)
 }
