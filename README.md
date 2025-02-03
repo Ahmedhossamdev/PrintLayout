@@ -28,13 +28,14 @@ pr -dir /path/to/your/folder
 
 ### Basic Flags
 
-| Flag | Description | Default | Example |
-|------|-------------|---------|---------|
-| `--dir` | Specify directory to print | Current directory | `pr --dir /path/to/folder` |
-| `--ext` | Filter files by extension | All files | `pr --ext .go` |
-| `--output` | Save output to file | Terminal output | `pr --output output.txt` |
-| `--no-color` | Disable colored output | Colors enabled | `pr --no-color` |
-| `--hidden` | Include hidden files | Not included | `pr --hidden` |
+| Flag           | Description | Default | Example |
+|----------------|-------------|---------|-------|
+| `--dir`        | Specify directory to print | Current directory | `pr --dir /path/to/folder` |
+| `--ext`        | Filter files by extension | All files | `pr --ext .go` |
+| `--output`     | Save output to file | Terminal output | `pr --output output.txt` |
+| `--no-color`   | Disable colored output | Colors enabled | `pr --no-color` |
+| `--hidden`     | Include hidden files | Not included | `pr --hidden` |
+| `--max-depth` | Limit directory traversal depth | No limit | `pr --max-depth 2` |
 
 ### Sorting Flags
 

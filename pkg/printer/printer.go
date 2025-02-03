@@ -27,6 +27,7 @@ type Config struct {
 	SortBy          string // "name", "size", "time"
 	Order           string // "asc", "desc"
 	IncludeHidden   bool
+	MaxDepth        int
 }
 
 var colorMap = map[string]color.Attribute{
@@ -62,7 +63,8 @@ func HandleFlags(config Config) {
 		config.ExcludePatterns,
 		config.SortBy,
 		config.Order,
-		config.IncludeHidden)
+		config.IncludeHidden,
+		config.MaxDepth)
 }
 
 // PrintProjectStructure prints the directory structure of the given root directory.
@@ -78,7 +80,8 @@ func PrintProjectStructure(
 	excludePatterns []string,
 	sortBy string,
 	order string,
-	includeHidden bool) {
+	includeHidden bool,
+	maxDepth int) {
 	absRoot, err := filepath.Abs(root)
 	if err != nil {
 		fmt.Println("Error getting absolute path:", err)
@@ -87,9 +90,9 @@ func PrintProjectStructure(
 
 	var output string
 	if format == "text" {
-		output = getTreeOutput(absRoot, extFilter, useColor, dirColorName, fileColorName, execColorName, excludePatterns, sortBy, order, includeHidden)
+		output = getTreeOutput(absRoot, extFilter, useColor, dirColorName, fileColorName, execColorName, excludePatterns, sortBy, order, includeHidden, maxDepth)
 	} else {
-		tree := buildTree(absRoot, extFilter, excludePatterns, sortBy, order, includeHidden)
+		tree := buildTree(absRoot, extFilter, excludePatterns, sortBy, order, includeHidden, maxDepth, 0)
 		switch format {
 		case "json":
 			data, _ := json.MarshalIndent(tree, "", "  ")
@@ -113,7 +116,7 @@ func PrintProjectStructure(
 	}
 }
 
-func getTreeOutput(root string, extFilter string, useColor bool, dirColorName string, fileColorName string, execColorName string, excludePatterns []string, sortBy string, order string, includeHidden bool) string {
+func getTreeOutput(root string, extFilter string, useColor bool, dirColorName string, fileColorName string, execColorName string, excludePatterns []string, sortBy string, order string, includeHidden bool, maxDepth int) string {
 	output := ""
 	dirCount := 0
 	fileCount := 0
@@ -122,8 +125,11 @@ func getTreeOutput(root string, extFilter string, useColor bool, dirColorName st
 	fileColorFunc := getColorFunc(fileColorName)
 	execColorFunc := getColorFunc(execColorName)
 
-	var traverse func(string, string) error
-	traverse = func(currentDir string, prefix string) error {
+	var traverse func(string, string, int) error
+	traverse = func(currentDir string, prefix string, depth int) error {
+		if maxDepth != -1 && depth >= maxDepth {
+			return nil
+		}
 		dir, err := os.Open(currentDir)
 		if err != nil {
 			return err
@@ -161,7 +167,7 @@ func getTreeOutput(root string, extFilter string, useColor bool, dirColorName st
 				}
 				output += fmt.Sprintf("%s%s/\n", prefix+getTreePrefix(isLast), entry.Name())
 
-				err := traverse(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast))
+				err := traverse(filepath.Join(currentDir, entry.Name()), prefix+getIndent(isLast), depth+1)
 				if err != nil {
 					return err
 				}
@@ -191,7 +197,7 @@ func getTreeOutput(root string, extFilter string, useColor bool, dirColorName st
 	fmt.Printf("%s/\n", filepath.Base(root))
 	output += fmt.Sprintf("%s/\n", filepath.Base(root))
 
-	err := traverse(root, "")
+	err := traverse(root, "", 0)
 	if err != nil {
 		fmt.Println("Error traversing directory:", err)
 		output += fmt.Sprintf("Error traversing directory: %v\n", err)
@@ -250,7 +256,10 @@ type Node struct {
 }
 
 // buildTree constructs a tree of Nodes from the directory structure
-func buildTree(currentDir string, extFilter string, excludePatterns []string, sortBy string, order string, includeHidden bool) *Node {
+func buildTree(currentDir string, extFilter string, excludePatterns []string, sortBy string, order string, includeHidden bool, maxDepth int, depth int) *Node {
+	if maxDepth != -1 && depth >= maxDepth {
+		return nil
+	}
 	dir, err := os.Open(currentDir)
 	if err != nil {
 		return nil
@@ -281,7 +290,7 @@ func buildTree(currentDir string, extFilter string, excludePatterns []string, so
 		}
 
 		if entry.IsDir() {
-			child := buildTree(filepath.Join(currentDir, entry.Name()), extFilter, excludePatterns, sortBy, order, includeHidden)
+			child := buildTree(filepath.Join(currentDir, entry.Name()), extFilter, excludePatterns, sortBy, order, includeHidden, maxDepth, depth+1)
 			if child != nil {
 				node.Children = append(node.Children, child)
 			}

@@ -32,6 +32,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           files: |
-            bin/printlayout-linux-amd64
-            bin/printlayout-darwin-amd64
-            bin/printlayout-windows-amd64.exe
+            bin/pr-linux-amd64
+            bin/pr-darwin-amd64
+            bin/pr.exe

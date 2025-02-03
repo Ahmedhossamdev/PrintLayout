@@ -24,7 +24,7 @@ func BenchmarkPrintProjectStructure(b *testing.B) {
 	// Run the benchmark
 	b.ResetTimer() // Reset the timer to exclude setup time
 	for i := 0; i < b.N; i++ {
-		PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false)
+		PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false, -1)
 	}
 }
 
@@ -43,7 +43,7 @@ func BenchmarkPrintProjectStructure_JSON(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		PrintProjectStructure(".", "", "", false, "json", "blue", "green", "red", []string{}, "name", "asc", false)
+		PrintProjectStructure(".", "", "", false, "json", "blue", "green", "red", []string{}, "name", "asc", false, -1)
 	}
 }
 
@@ -61,7 +61,7 @@ func BenchmarkPrintProjectStructure_LargeDirectory(b *testing.B) {
 
 	b.ResetTimer() // Reset the timer to exclude setup time
 	for i := 0; i < b.N; i++ {
-		PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false)
+		PrintProjectStructure(".", "", "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false, -1)
 	}
 }
 
