@@ -235,6 +235,59 @@ func TestPrintProjectStructure(t *testing.T) {
 			t.Errorf("Unexpected output:\nGot:\n%s\nExpected:\n%s", output, expected)
 		}
 	})
+
+	// Test text output file
+	t.Run("TextOutputFile", func(t *testing.T) {
+		filePath := filepath.Join(tmpDir, "output.txt")
+
+		PrintProjectStructure(".", filePath, "", false, "text", "blue", "green", "red", []string{}, "name", "asc", false, -1)
+
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			t.Fatalf("Output file was not created: %v", err)
+		}
+
+		fileContent, err := os.ReadFile(filePath)
+		if err != nil {
+			t.Fatalf("Failed to read output file: %v", err)
+		}
+
+		if len(fileContent) == 0 {
+			t.Errorf("Output file is empty")
+		}
+	})
+
+	// Test JSON output file
+	t.Run("JSONOutputFile", func(t *testing.T) {
+		filePath := filepath.Join(tmpDir, "output.json")
+
+		PrintProjectStructure(".", filePath, "", false, "json", "blue", "green", "red", []string{}, "name", "asc", false, -1)
+
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			t.Fatalf("Output file was not created: %v", err)
+		}
+
+		fileContent, err := os.ReadFile(filePath)
+		if err != nil {
+			t.Fatalf("Failed to read output file: %v", err)
+		}
+
+		// Verify that the output is valid JSON
+		var result interface{}
+		if err := json.Unmarshal(fileContent, &result); err != nil {
+			t.Errorf("Output is not valid JSON: %v", err)
+		}
+	})
+
+	// Test invalid format output file
+	t.Run("InvalidOutputFile", func(t *testing.T) {
+		filePath := filepath.Join(tmpDir, "output.txt")
+
+		PrintProjectStructure(".", filePath, "", false, "xyz", "blue", "green", "red", []string{}, "name", "asc", false, -1)
+
+		if _, err := os.Stat(filePath); os.IsExist(err) {
+			t.Errorf("Format is not valid: %v", err)
+		}
+	})
 }
 
 // createTestProjectStructure creates a sample project structure for testing.
